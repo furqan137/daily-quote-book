@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quote-web-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: quote-web
+  template:
+    metadata:
+      labels:
+        app: quote-web
+    spec:
+      containers:
+        - name: quote-web
+          image: quote-web:latest  # Use your DockerHub image if not using minikube's docker-env
+          ports:
+            - containerPort: 5000
+          env:
+            - name: DB_HOST
+              value: "quote-db-service"
+            - name: DB_NAME
+              value: "quotes"
+            - name: DB_USER
+              value: "postgres"
+            - name: DB_PASSWORD
+              value: "password"
